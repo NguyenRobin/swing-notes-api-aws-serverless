@@ -22,11 +22,11 @@ functions:
     handler: src/functions/signup/index.handler
     events:
       - httpApi:
-        path: '/api/user/signup'
-        method: 'POST'
+          path: '/api/user/signup'
+          method: POST
   login:
-    handler: src/functions/signup/index.handler
+    handler: src/functions/login/index.handler
     events:
       - httpApi:
-        path: '/api/user/signup'
-        method: 'POST'
+          path: '/api/user/login'
+          method: POST
