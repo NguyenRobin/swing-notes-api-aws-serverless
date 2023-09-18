@@ -1,0 +1,24 @@
+service: swing-notes-api-aws
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  profile: ${env:PROFILE}
+  region: eu-north-1
+  iam:
+    role: ${env:LAMBDA_ROLE}
+
+useDotenv: true
+
+plugins:
+  - serverless-webpack
+
+package:
+  individually: true
+
+functions:
+  signup:
+    handler: src/functions/signup/index.handler
+    events:
+      - httpApi: 'POST /api/user/signup'
