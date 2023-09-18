@@ -30,3 +30,32 @@ functions:
       - httpApi:
           path: '/api/user/login'
           method: POST
+
+resources:
+  Resources:
+    swingNotes:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: swingNotes
+        KeySchema:
+          - AttributeName: partitionKey
+            KeyType: HASH
+          - AttributeName: sortKey
+            KeyType: RANGE
+        AttributeDefinitions:
+          - AttributeName: partitionKey
+            AttributeType: S
+          - AttributeName: sortKey
+            AttributeType: S
+          - AttributeName: entityType
+            AttributeType: S
+        GlobalSecondaryIndexes:
+          - IndexName: GSI
+            KeySchema:
+              - AttributeName: entityType
+                KeyType: HASH
+              - AttributeName: sortKey
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        BillingMode: PAY_PER_REQUEST
