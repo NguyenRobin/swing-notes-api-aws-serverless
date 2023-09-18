@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "@middy/core": "^4.6.4",
-    "@types/aws-lambda": "^8.10.121"
+    "@types/aws-lambda": "^8.10.121",
+    "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
     "@types/node": "^20.6.2",
