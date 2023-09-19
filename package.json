@@ -1,8 +1,10 @@
 {
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.415.0",
     "@middy/core": "^4.6.4",
+    "@middy/http-json-body-parser": "^4.6.4",
     "@types/aws-lambda": "^8.10.121",
-    "aws-sdk": "^2.1459.0",
+    "aws-sdk": "^2.1460.0",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2"
   },
@@ -10,6 +12,7 @@
     "@types/node": "^20.6.2",
     "serverless-webpack": "^5.13.0",
     "ts-loader": "^9.4.4",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "webpack-node-externals": "^3.0.0"
   }
 }

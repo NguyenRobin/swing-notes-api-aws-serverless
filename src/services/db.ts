@@ -1,5 +1,3 @@
-import { DocumentClient } from 'aws-sdk/clients/dynamodb';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 
-export const db = new DocumentClient({
-  region: process.env.AWS_REGION,
-});
+export const db = new DynamoDBClient({ region: process.env.AWS_REGION });
