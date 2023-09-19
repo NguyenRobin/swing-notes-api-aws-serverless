@@ -30,6 +30,30 @@ functions:
       - httpApi:
           path: '/api/user/login'
           method: POST
+  getNotes:
+    handler: src/functions/getNotes/index.handler
+    events:
+      - httpApi:
+          path: '/api/notes'
+          method: GET
+  createNote:
+    handler: src/functions/createNote/index.handler
+    events:
+      - httpApi:
+          path: '/api/notes'
+          method: POST
+  updateNote:
+    handler: src/functions/updateNote/index.handler
+    events:
+      - httpApi:
+          path: '/api/notes'
+          method: PUT
+  deleteNote:
+    handler: src/functions/deleteNote/index.handler
+    events:
+      - httpApi:
+          path: '/api/notes'
+          method: DELETE
 
 resources:
   Resources:

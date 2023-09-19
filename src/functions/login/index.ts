@@ -3,20 +3,11 @@ import httpJsonBodyParser from '@middy/http-json-body-parser';
 import middy from '@middy/core';
 import { QueryCommand } from '@aws-sdk/client-dynamodb';
 import { db } from '../../services/db';
+import { createToken } from '../../middlewares/jwt';
 
 interface UserCredentials extends APIGatewayProxyEvent {
   email: string;
   password: string;
-}
-
-interface UserProperties {
-  partitionKey: string;
-  sortKey: string;
-  entityType: string;
-  password: string;
-  createdAt: string;
-  username: string;
-  email: string;
 }
 
 type Boolean = true | false;
@@ -33,11 +24,11 @@ async function login(email: string, password: string | undefined) {
 
   try {
     const response = await db.send(command);
+    const passwordsIsMatching: Boolean =
+      response.Items?.at(0)?.password.S === password;
 
-    if (response) {
-      const passwordsIsMatching: Boolean =
-        response.Items?.at(0)?.password.S === password;
-      return passwordsIsMatching;
+    if (passwordsIsMatching) {
+      return createToken({ email: response.Items?.at(0)?.email.S! });
     }
   } catch (error) {
     console.log(error);
@@ -46,21 +37,14 @@ async function login(email: string, password: string | undefined) {
 
 async function loginHandler(event: APIGatewayProxyEvent) {
   const { email, password } = event.body as unknown as UserCredentials;
-  console.log(password);
   try {
-    await login(email, password);
+    const userAuthenticationToken = await login(email, password);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ success: true, token: userAuthenticationToken }),
+    };
   } catch (error) {}
-  // return {
-  //   statusCode: 200,
-  //   body: JSON.stringify(
-  //     {
-  //       message: 'Go Serverless v3.0! Your function executed successfully!',
-  //       input: event,
-  //     },
-  //     null,
-  //     2
-  //   ),
-  // };
 }
 
 export const handler = middy(loginHandler).use(httpJsonBodyParser());

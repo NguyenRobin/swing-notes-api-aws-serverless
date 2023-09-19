@@ -1,0 +1,1 @@
+(()=>{"use strict";var e={};(()=>{var r=e;Object.defineProperty(r,"__esModule",{value:!0}),r.handler=void 0,r.handler=async e=>(console.log(e),{statusCode:200,body:JSON.stringify({event:e})})})();var r=exports;for(var o in e)r[o]=e[o];e.__esModule&&Object.defineProperty(r,"__esModule",{value:!0})})();
