@@ -49,12 +49,11 @@ async function findUserByEmail(email: string) {
 }
 
 async function loginHandler(event: APIGatewayProxyEvent) {
-  const { email, password } = event.body as unknown as UserCredentials;
-  if (!email || !password) {
-    throw { httpErrorCode: 400, message: 'email and password is required' };
-  }
-
   try {
+    const { email, password } = event.body as unknown as UserCredentials;
+    if (!email || !password) {
+      throw { httpErrorCode: 401, message: 'email and password is required' };
+    }
     const user = await findUserByEmail(email);
     const userPassword = user?.at(0)?.Password.S;
     const userEmail: UserEmail = user?.at(0)?.Email.S!;
@@ -74,8 +73,9 @@ async function loginHandler(event: APIGatewayProxyEvent) {
       }
     }
   } catch (error: any) {
+    console.log(error.statusCode);
     return {
-      statusCode: error.httpErrorCode || 500,
+      statusCode: error.statusCode || error.httpErrorCode || 500,
       body: JSON.stringify({
         message: error.message || 'Internal server error',
       }),
