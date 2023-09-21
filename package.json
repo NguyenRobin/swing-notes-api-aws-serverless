@@ -7,7 +7,8 @@
     "aws-sdk": "^2.1460.0",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.3.1",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/node": "^20.6.2",

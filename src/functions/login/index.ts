@@ -73,9 +73,8 @@ async function loginHandler(event: APIGatewayProxyEvent) {
       }
     }
   } catch (error: any) {
-    console.log(error.statusCode);
     return {
-      statusCode: error.statusCode || error.httpErrorCode || 500,
+      statusCode: error.httpErrorCode || 500,
       body: JSON.stringify({
         message: error.message || 'Internal server error',
       }),
