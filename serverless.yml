@@ -54,32 +54,31 @@ functions:
       - httpApi:
           path: '/api/notes'
           method: DELETE
-
 resources:
   Resources:
-    swingNotes:
+    SwingNotes:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: swingNotes
+        TableName: SwingNotes
         KeySchema:
-          - AttributeName: partitionKey
+          - AttributeName: PK
             KeyType: HASH
-          - AttributeName: sortKey
+          - AttributeName: SK
             KeyType: RANGE
         AttributeDefinitions:
-          - AttributeName: partitionKey
+          - AttributeName: PK
             AttributeType: S
-          - AttributeName: sortKey
+          - AttributeName: SK
             AttributeType: S
-          - AttributeName: entityType
-            AttributeType: S
-        GlobalSecondaryIndexes:
-          - IndexName: GSI
-            KeySchema:
-              - AttributeName: entityType
-                KeyType: HASH
-              - AttributeName: sortKey
-                KeyType: RANGE
-            Projection:
-              ProjectionType: ALL
+        #   - AttributeName: EntityType
+        #     AttributeType: S
+        # GlobalSecondaryIndexes:
+        #   - IndexName: GSI
+        #     KeySchema:
+        #       - AttributeName: EntityType
+        #         KeyType: HASH
+        #       - AttributeName: SK
+        #         KeyType: RANGE
+        #     Projection:
+        #       ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
