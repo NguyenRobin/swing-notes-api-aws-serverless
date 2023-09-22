@@ -1,51 +1,12 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import httpJsonBodyParser from '@middy/http-json-body-parser';
 import middy from '@middy/core';
-import { QueryCommand } from '@aws-sdk/client-dynamodb';
-import { db } from '../../services/db';
+import httpJsonBodyParser from '@middy/http-json-body-parser';
 import { UserEmail, createToken } from '../../middlewares/jwt';
+import { checkIsPasswordsMatching, findUserByEmail } from './helpers';
 
 interface UserCredentials extends APIGatewayProxyEvent {
   email: string;
   password: string;
-}
-
-type Boolean = true | false;
-
-function checkIsPasswordsMatching(
-  userPassword: string,
-  enteredPassword: string
-) {
-  const passwordsIsMatching: Boolean = userPassword === enteredPassword;
-
-  try {
-    if (!passwordsIsMatching) {
-      throw { httpErrorCode: 404, message: 'Password not matching' };
-    }
-    return passwordsIsMatching;
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function findUserByEmail(email: string) {
-  const command = new QueryCommand({
-    TableName: 'SwingNotes',
-    KeyConditionExpression: 'PK = :pk AND SK = :sk',
-    ExpressionAttributeValues: {
-      ':pk': { S: 'u#' + email },
-      ':sk': { S: 'u#' + email },
-    },
-  });
-  try {
-    const { Items: user } = await db.send(command);
-    if (!user || !user.length) {
-      throw { httpErrorCode: 401, message: 'Email not found!' };
-    }
-    return user;
-  } catch (error: any) {
-    throw error;
-  }
 }
 
 async function loginHandler(event: APIGatewayProxyEvent) {
@@ -81,4 +42,5 @@ async function loginHandler(event: APIGatewayProxyEvent) {
     };
   }
 }
+
 export const handler = middy(loginHandler).use(httpJsonBodyParser());

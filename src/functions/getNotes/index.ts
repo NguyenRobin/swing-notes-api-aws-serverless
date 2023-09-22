@@ -1,27 +1,8 @@
-import middy from '@middy/core';
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import { ScanCommand } from '@aws-sdk/client-dynamodb';
+import middy from '@middy/core';
 
-import { db } from '../../services/db';
 import { validateToken } from '../../middlewares/jwt';
-
-async function getNotes() {
-  const command = new ScanCommand({
-    TableName: 'SwingNotes',
-    FilterExpression: 'begins_with(PK, :PK)',
-    ExpressionAttributeValues: {
-      ':PK': { S: 'n#' },
-    },
-  });
-
-  try {
-    const response = await db.send(command);
-    console.log(response);
-    return response.Items;
-  } catch (error) {
-    throw error;
-  }
-}
+import { getNotes } from './helpers';
 
 async function getNotesHandler(event: APIGatewayProxyEvent) {
   try {

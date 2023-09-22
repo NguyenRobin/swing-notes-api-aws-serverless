@@ -28,7 +28,9 @@ export const validateToken = (): middy.MiddlewareObj<APIGatewayProxyEvent> => {
           message: 'Valid token most be provided in headers',
         };
       }
+
       const isTokenValid = await jwt.verify(token, `${process.env.SECRET_KEY}`);
+
       if (!isTokenValid) {
         throw { httpErrorCode: 401, message: 'Invalid token' };
       }
