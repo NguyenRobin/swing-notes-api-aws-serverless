@@ -1,8 +1,18 @@
-const jwt = require('jsonwebtoken');
 import middy from '@middy/core';
 import { APIGatewayProxyEvent } from 'aws-lambda';
+export const jwt = require('jsonwebtoken');
 
 export type UserEmail = string;
+
+export function getToken(event: APIGatewayProxyEvent) {
+  const token = event?.headers?.authorization?.replace('Bearer ', '').trim();
+  return token;
+}
+
+export async function verifyToken(token: string) {
+  const isTokenValid = await jwt.verify(token, `${process.env.SECRET_KEY}`);
+  return isTokenValid;
+}
 
 export function createToken(email: UserEmail) {
   const token: string = jwt.sign(

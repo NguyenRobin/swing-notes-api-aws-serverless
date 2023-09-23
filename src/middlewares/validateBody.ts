@@ -1,7 +1,7 @@
 import middy from '@middy/core';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 
-interface NoteBody {
+export interface NoteBody {
   title?: string;
   text?: string;
 }
