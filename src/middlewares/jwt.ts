@@ -21,6 +21,7 @@ export const validateToken = (): middy.MiddlewareObj<APIGatewayProxyEvent> => {
       const token = request?.event?.headers?.authorization
         ?.replace('Bearer ', '')
         .trim();
+      console.log('token', token);
 
       if (!token) {
         throw {

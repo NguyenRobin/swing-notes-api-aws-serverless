@@ -2,33 +2,23 @@ import middy from '@middy/core';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 
 interface NoteBody {
-  // PK: string;
-  // SK: string;
-  title: string;
-  text: string;
-  // EntityType: string;
-  // CreatedAt: string;
-  // Modified?: string;
+  title?: string;
+  text?: string;
 }
 export const validateBody = (): middy.MiddlewareObj<APIGatewayProxyEvent> => {
   const before: middy.MiddlewareFn<APIGatewayProxyEvent> = async (request) => {
     try {
-      const body = request?.event?.body;
-      if (
-        !body ||
-        !body.hasOwnProperty('title') ||
-        !body.hasOwnProperty('text') ||
-        typeof body !== 'object' ||
-        body === null
-      ) {
-        throw { httpErrorCode: 401, message: 'title and text is required' };
+      const rawBody = request?.event?.body as NoteBody;
+      if (!rawBody) {
+        throw { httpErrorCode: 400, message: 'Request body is missing' };
       }
-      // if (requestBody !== null && typeof requestBody === 'object') {
-      //   const { title, text }: NoteBody = requestBody;
-      // }
-      // if (!title || !text) {
-      //   throw { httpErrorCode: 401, message: 'title and text is required' };
-      // }
+      const { title, text } = rawBody;
+      if (!title || !text) {
+        throw {
+          httpErrorCode: 401,
+          message: 'title and text must included in body',
+        };
+      }
     } catch (error: any) {
       return {
         statusCode: error.httpErrorCode || 500,
