@@ -9,7 +9,7 @@ async function getNotesHandler(event: APIGatewayProxyEvent) {
     const notes = await getNotes();
     return {
       statusCode: 200,
-      body: JSON.stringify({ notes }),
+      body: JSON.stringify({ success: true, result: notes?.length, notes }),
     };
   } catch (error: any) {
     return {

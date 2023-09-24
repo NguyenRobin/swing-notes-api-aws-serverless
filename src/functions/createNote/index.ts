@@ -2,7 +2,11 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 import middy from '@middy/core';
 import jsonBodyParser from '@middy/http-json-body-parser';
 import { randomUUID } from 'crypto';
-import { getToken, validateToken, verifyToken } from '../../middlewares/jwt';
+import {
+  getToken,
+  validateToken,
+  verifyTokenOwner,
+} from '../../middlewares/jwt';
 import { validateBody } from '../../middlewares/validateBody';
 import { NoteBody } from '../../middlewares/validateBody';
 import { NewNote, createNote } from './helpers';
@@ -11,7 +15,7 @@ async function lambda(event: APIGatewayProxyEvent) {
   try {
     const { title, text } = event.body as NoteBody;
     const token = getToken(event)!;
-    const tokenOwner = await verifyToken(token);
+    const tokenOwner = await verifyTokenOwner(token);
     const pk = 'u#' + tokenOwner.email.trim();
     const sk = `n#${randomUUID()}`;
     const entityType = 'notes';

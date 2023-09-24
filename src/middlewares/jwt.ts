@@ -9,9 +9,9 @@ export function getToken(event: APIGatewayProxyEvent) {
   return token;
 }
 
-export async function verifyToken(token: string) {
-  const isTokenValid = await jwt.verify(token, `${process.env.SECRET_KEY}`);
-  return isTokenValid;
+export async function verifyTokenOwner(token: string) {
+  const tokenOwner = await jwt.verify(token, `${process.env.SECRET_KEY}`);
+  return tokenOwner;
 }
 
 export function createToken(email: UserEmail) {
