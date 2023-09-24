@@ -46,8 +46,8 @@ functions:
     handler: src/functions/updateNote/index.handler
     events:
       - httpApi:
-          path: '/api/notes'
-          method: PUT
+          path: '/api/notes/{noteId}'
+          method: PATCH
   deleteNote:
     handler: src/functions/deleteNote/index.handler
     events:

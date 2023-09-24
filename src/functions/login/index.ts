@@ -9,7 +9,7 @@ interface UserCredentials extends APIGatewayProxyEvent {
   password: string;
 }
 
-async function loginHandler(event: APIGatewayProxyEvent) {
+async function lambda(event: APIGatewayProxyEvent) {
   try {
     const { email, password } = event.body as unknown as UserCredentials;
     if (!email || !password) {
@@ -43,4 +43,4 @@ async function loginHandler(event: APIGatewayProxyEvent) {
   }
 }
 
-export const handler = middy(loginHandler).use(httpJsonBodyParser());
+export const handler = middy(lambda).use(httpJsonBodyParser());
