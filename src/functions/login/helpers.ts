@@ -28,6 +28,7 @@ export async function findUserByEmail(email: string) {
       ':sk': { S: 'u#' + email },
     },
   });
+
   try {
     const { Items: user } = await db.send(command);
     if (!user || !user.length) {

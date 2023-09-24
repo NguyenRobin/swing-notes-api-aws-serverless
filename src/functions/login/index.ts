@@ -16,7 +16,6 @@ async function loginHandler(event: APIGatewayProxyEvent) {
       throw { httpErrorCode: 401, message: 'email and password is required' };
     }
     const user = await findUserByEmail(email);
-    console.log(user);
     const userPassword = user?.at(0)?.Password.S;
     const userEmail: UserEmail = user?.at(0)?.Email.S!;
 
